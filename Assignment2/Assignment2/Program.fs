@@ -67,11 +67,35 @@ let rec ack (m, n) =    match (m, n) with
 //Exercise 2.9
 type complex = float * float;;
 
-let mkComplex (a: float) (b: float) : complex = (a, b);;
-let mkComplex2 (a: float) (b: float) = complex (a, b);;
+let mkComplex (x: float) (y: float) : complex = (x, y);;
+let mkComplex2 (x: float) (y: float) = complex (x, y);;
 
-let complexToPair (x: complex) = (fst x, snd x);;
+let complexToPair (x: complex) =(fst x, snd x);;
 
-let addition (a: complex) (b: complex) = (fst a + fst b, snd a + snd b);;
-let multiplication (a: complex) (b: complex) = (fst a ** fst b - snd a ** snd b, snd a ** fst b + fst a ** snd b);;
-// let subtraction (a: complex) (b: complex) = ;;
+//has the correct form but doesnt guarantee complex output and isn't inline
+let addition (x: complex) (y: complex) =
+    (fst x + fst y, snd x + snd y);;
+
+//upgraded to inline with a promised return type utilizing earlier built function mkComplex
+let inline (|+|) (x: complex) (y: complex) : complex =
+    mkComplex (fst x + fst y) (snd x + snd y);;
+
+//has the correct form but doesn't guarantee complex output and isn't inline
+let multiplication (x: complex) (y: complex) =
+    (fst x ** fst y - snd x ** snd y, snd x ** fst y + fst x ** snd y);;
+
+//upgraded to inline with a promised return type utilizing earlier built function mkComplex
+let inline (|*|) (x: complex) (y: complex) : complex =
+    mkComplex (fst x ** fst y - snd x ** snd y) (snd x ** fst y + fst x ** snd y);;
+
+let subtraction (x: complex) : complex =
+    mkComplex (-fst x) (-snd x);;
+    
+let inline (|-|) (x: complex) : complex =
+    mkComplex (-fst x) (-snd x);;
+
+let division (x: complex) : complex =
+    mkComplex (fst x / fst x ** fst x + snd x ** snd x) (- snd x / fst x ** fst x + snd x ** snd x);;
+    
+let inline (|/|) (x: complex) : complex =
+    mkComplex (fst x / fst x ** fst x + snd x ** snd x) (- snd x / fst x ** fst x + snd x ** snd x);;
