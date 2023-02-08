@@ -97,5 +97,6 @@ let inline (|-|) (x: complex) : complex =
 let division (x: complex) : complex =
     mkComplex (fst x / fst x ** fst x + snd x ** snd x) (- snd x / fst x ** fst x + snd x ** snd x);;
     
+//pow second is x ** 2
 let inline (|/|) (x: complex) : complex =
     mkComplex (fst x / fst x ** fst x + snd x ** snd x) (- snd x / fst x ** fst x + snd x ** snd x);;
