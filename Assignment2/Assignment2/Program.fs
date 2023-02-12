@@ -119,6 +119,55 @@ let timeArg1 f a =
 timeArg1 ack (3, 11);;
 
 //Exercise 2.10
-let downto3 f n e = match n with
-                    | n when n <= 0 -> [] 
-                    | _ -> 
+let rec downto3 f n e =
+    if n <= 0
+    then e
+    else downto3 f (n - 1) (f n e);;
+
+//let fac
+//need help
+
+//Exercise 2.11
+type word = (char * int) list;;
+
+let hello : word = [('H', 4); ('E', 1); ('L', 1); ('L', 1); ('O', 1)];;
+
+//Exercise 2.12
+type squareFun = word -> int -> int -> int;;
+
+//why can't I specify with ": squareFun"
+let singleLetterScore (word: word) pos accscore = (snd word.[pos]) + accscore;;
+
+let doubleLetterScore (word: word) pos accscore = (snd word.[pos]) * 2 + accscore;;
+
+let tripleLetterScore (word: word) pos accscore = (snd word.[pos]) * 3 + accscore;;
+
+//Exercise 2.13
+let doubleWordScore (word: word) pos accscore = accscore * 2;;
+
+let tripleWordScore (word: word) pos accscore = accscore * 3;;
+
+//Exercise 2.14
+let oddConsonants (word: word) pos accscore =
+    let mutable count = 0
+    List.iter (fun (char, pointValue) -> count <- count + 1) word
+    if count % 2 = 1
+    then -accscore
+    else accscore;;
+    
+//Putting square functions together
+type square = (int * squareFun) list;;
+
+let SLS : square = [0, singleLetterScore];;
+
+let DLS : square = [0, doubleLetterScore];;
+
+let TLS : square = [0, tripleLetterScore];;
+
+let DWS : square = SLS @ [1, doubleWordScore];;
+
+let TWS : square = SLS @ [1, tripleWordScore];;
+
+//Exercise 2.15
+let calculatePoints squares word =
+    List.mapi (fun ) squares |>
