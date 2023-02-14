@@ -169,5 +169,5 @@ let DWS : square = SLS @ [1, doubleWordScore];;
 let TWS : square = SLS @ [1, tripleWordScore];;
 
 //Exercise 2.15
-let calculatePoints squares word =
-    List.mapi (fun ) squares |>
+// let calculatePoints squares word =
+//     List.mapi (fun ) squares |>
