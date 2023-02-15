@@ -27,15 +27,18 @@ let a6 = V "x";;
 let a7 = N 4 .+. (V "y" .-. V "z");;
 
 //Exercise 3.1
+//Consider only following types of aExp:
+//N, Add, Sub, Mul
 let rec arithEvalSimple aExp =
     match aExp with
     | N a -> a
     | Add (a, b) -> arithEvalSimple a + arithEvalSimple b
     | Sub (a, b) -> arithEvalSimple a - arithEvalSimple b
-    | Mul (a, b) -> arithEvalSimple a * arithEvalSimple b
-    | _ -> failwith "todo";;
+    | Mul (a, b) -> arithEvalSimple a * arithEvalSimple b;;
 
 //Exercise 3.2
+//Consider only following types of aExp:
+//N, V, Add, Sub, Mul
 let rec arithEvalState aExp (state: Map<string, int>) =
     match aExp with
     | N a -> a
@@ -63,7 +66,14 @@ arithEvalState a6 (Map.ofList [("y", 5)]);;
 
 type word = (char * int) list;;
 
+let arithSingleLetterScore = PV (V "_pos_") .+. (V "_acc_");;
+let arithDoubleLetterScore = ((N 2) .*. PV (V "_pos_")) .+. (V "_acc_");;
+let arithTripleLetterScore = ((N 3) .*. PV (V "_pos_")) .+. (V "_acc_");;
+let arithDoubleWordScore = N 2 .*. V "_acc_";;
+let arithTripleWordScore = N 3 .*. V "_acc_";;
+
 //Exercise 3.3
+//Consider all types of aExp
 let rec arithEval aExp (word: word) (state: Map<string, int>) = 
     match aExp with
     | N int -> int
@@ -92,7 +102,10 @@ let rec charEval cExp (word: word) (state: Map<string, int>) =
     | C char -> char
     | ToUpper c -> System.Char.ToUpper(charEval c word state)
     | ToLower c -> System.Char.ToLower(charEval c word state)
-    | CV aExp -> fst word.[arithEval aExp word state];;
+    | CV aExp -> fst word.[arithEval aExp word state];;         //Note: word is a list of tuples (char, PV)
+                                                                //arithEval of an int N will return N
+                                                                //lookup at word.[N] returns the tuple at index N
+                                                                //the 'fst' value of that tuple will be the char
     
     
 //Exercise 3.5
@@ -141,4 +154,80 @@ let rec boolEval bool (word: word) (state: Map<string, int>) =
 isVowel 'e';;
 isVowel 'B';;
 
-//Exercise 3.
+//Exercise 3.6
+let isConsonant cExp =
+    Conj(Not(IsVowel cExp), IsLetter(cExp));;
+
+//Exercise 3.7
+type stmnt =    
+    | Skip                          //Skip
+    | Ass of string * aExp          //Variable assignment
+    | Seq of stmnt * stmnt          //Sequential composition
+    | ITE of bExp * stmnt * stmnt   //If-then-else statement
+    | While of bExp * stmnt;;       //While statement
+    
+let rec evalStmnt stm (word: word) (state: Map<string, int>) =
+    match stm with
+    | Skip -> state
+    | Ass (x, aExp) -> Map.add x (arithEval aExp word state) state
+    | Seq (stm1, stm2) ->
+        evalStmnt stm1 word state |>
+        evalStmnt stm2 word
+    | ITE (bExp, stm1, stm2) ->
+        if boolEval bExp word state
+        then evalStmnt stm1 word state
+        else evalStmnt stm2 word state
+    | While (bExp, stm) ->
+        match boolEval bExp word state with
+        | true -> evalStmnt (While (bExp, stm)) word (evalStmnt stm word state)
+        | _ -> state;;
+        
+evalStmnt Skip [] Map.empty;;
+evalStmnt (Ass ("x", N 5)) [] Map.empty;;
+evalStmnt (Seq (Ass ("x", WL), Ass ("y", N 7))) hello Map.empty;;
+evalStmnt (ITE (WL .>=. N 5, Ass ("x", N 1), Ass ("x", N 2))) hello Map.empty;;
+evalStmnt (ITE (WL .<. N 5, Ass ("x", N 1), Ass ("x", N 2))) hello Map.empty;;
+
+evalStmnt (While (V "x" .<=. WL,
+    Seq (Ass ("y", V "y" .+. V "x"),
+        Ass ("x", V "x" .+. N 1))))
+    hello Map.empty;;
+    
+evalStmnt (While (V "x" .<=. WL,
+    Seq (Ass ("y", V "y" .+. V "x"),
+        Ass ("x", V "x" .+. N 1))))
+    hello (Map.ofList [("x", 3); ("y", 100)]);;
+    
+//Exercise 3.8
+type squareFun = word -> int -> int -> int;;
+
+let stmntToSquareFun stm (word: word) pos acc =
+    evalStmnt stm word (Map.ofList [("_pos_", pos); ("_acc_", acc)]) |>
+    Map.find "_result_";;
+
+
+let singleLetterScore = stmntToSquareFun (Ass ("_result_", arithSingleLetterScore));;
+let doubleLetterScore = stmntToSquareFun (Ass ("_result_", arithDoubleLetterScore));;
+let tripleLetterScore = stmntToSquareFun (Ass ("_result_", arithTripleLetterScore));;
+let doubleWordScore = stmntToSquareFun (Ass ("_result_", arithDoubleWordScore));;
+let tripleWordScore = stmntToSquareFun (Ass ("_result_", arithTripleWordScore));;
+
+let containsNumbers =
+    stmntToSquareFun
+        (Seq (Ass ("_result_", V "_acc_"),
+            While (V "i" .<. WL,
+                ITE (IsDigit (CV (V "i")),
+                    Seq (
+                        Ass ("_result_", V "_result_" .*. N -1),
+                        Ass ("i", WL)),
+                    Ass ("i", V "i" .+. N 1)))));;
+
+singleLetterScore hello 0 0;;
+doubleLetterScore hello 0 0;;
+tripleLetterScore hello 0 0;;
+singleLetterScore hello 0 42;;
+doubleLetterScore hello 0 42;;
+tripleLetterScore hello 0 42;;
+containsNumbers hello 5 50;;
+containsNumbers (('0', 100)::hello) 5 50;;
+containsNumbers (hello @ [('0', 100)]) 5 50;;
