@@ -93,3 +93,52 @@ let rec charEval cExp (word: word) (state: Map<string, int>) =
     | ToUpper c -> System.Char.ToUpper(charEval c word state)
     | ToLower c -> System.Char.ToLower(charEval c word state)
     | CV aExp -> fst word.[arithEval aExp word state];;
+    
+    
+//Exercise 3.5
+type bExp =
+    | TT                    //True
+    | FF                    //False
+    
+    | AEq of aExp * aExp    //Numeric equality
+    | ALt of aExp * aExp    //Numeric less than
+    
+    | Not of bExp           //Boolean not
+    | Conj of bExp * bExp   //Boolean conjunction
+    
+    | IsDigit of cExp       //Check for digit
+    | IsLetter of cExp      //Check for letter
+    | IsVowel of cExp;;     //Check for vowel
+    
+let (~~) b = Not b
+let (.&&.) b1 b2 = Conj (b1, b2)
+let (.||.) b1 b2 = ~~(~~b1 .&&. ~~b2)           (* boolean disjunction *)
+let (.=.) a b = AEq (a, b)
+let (.<.) a b = ALt (a, b)
+let (.<>.) a b = ~~(a .=. b)                    (* numeric inequality *)
+let (.<=.) a b = a .<. b .||. ~~(a .<>. b)      (* numeric less than or equal to *)
+let (.>=.) a b = ~~(a .<. b)                    (* numeric greater than or equal to *)
+let (.>.) a b = ~~(a .=. b) .&&. (a .>=. b)     (* numeric greater than *)
+
+let vowels = ['A'; 'E'; 'I'; 'O'; 'U'];;
+let isVowel (c: char) =
+    List.exists (fun x -> x = System.Char.ToUpper(c)) vowels;;
+let rec boolEval bool (word: word) (state: Map<string, int>) =
+    match bool with
+    | TT -> true
+    | FF -> false
+    
+    | AEq (a, b) -> arithEval a word state = arithEval b word state
+    | ALt (a, b) -> arithEval a word state < arithEval b word state
+    
+    | Not bool -> not (boolEval bool word state)
+    | Conj (a, b) -> boolEval a word state && boolEval b word state
+    
+    | IsDigit cExp -> System.Char.IsDigit(charEval cExp word state)
+    | IsLetter cExp -> System.Char.IsLetter(charEval cExp word state)
+    | IsVowel cExp -> isVowel(charEval cExp word state);;
+    
+isVowel 'e';;
+isVowel 'B';;
+
+//Exercise 3.
