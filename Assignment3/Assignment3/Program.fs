@@ -231,3 +231,6 @@ tripleLetterScore hello 0 42;;
 containsNumbers hello 5 50;;
 containsNumbers (('0', 100)::hello) 5 50;;
 containsNumbers (hello @ [('0', 100)]) 5 50;;
+
+//Exercise 3.9
+let oddConsonants = stmntToSquareFun 
