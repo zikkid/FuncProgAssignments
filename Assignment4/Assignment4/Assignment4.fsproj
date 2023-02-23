@@ -47,6 +47,8 @@
         <Compile Include="AssemblyInfo.fs" />
         <Compile Include="Program.fs" />
         <Content Include="packages.config" />
+        <Compile Include="Dict.fsi" />
+        <Compile Include="Dict.fs" />
     </ItemGroup>
     <Import Project="$(FSharpTargetsPath)" Condition="Exists('$(FSharpTargetsPath)')" />
 </Project>
