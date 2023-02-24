@@ -24,5 +24,5 @@
      let foldBack f (M s) acc = Map.foldBack f s acc
      
      //Yellow
-     // let ofList lst = List.map lst
-     // let toList (M s) = Map.toList s
+     let ofList lst = List.fold (fun acc x -> addSingle x acc) empty lst
+     let toList (M s) = fold 

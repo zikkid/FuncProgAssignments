@@ -14,9 +14,9 @@
     val fold : ('a -> 'b -> uint32 -> 'a) -> 'a -> MultiSet<'b> -> 'a
     val foldBack : ('a -> uint32 -> 'b -> 'b) -> MultiSet<'a> -> 'b -> 'b
     //Yellow
-    // val ofList : 'a list -> MultiSet<'a>
-    // val toList : MultiSet<'a> -> 'a list
-    // val map : ('a -> 'b) -> MultiSet<'a> -> MultiSet<'b>
+    val ofList : 'a list -> MultiSet<'a>
+    val toList : MultiSet<'a> -> 'a list
+    //val map : ('a -> 'b) -> MultiSet<'a> -> MultiSet<'b>
     // val union : MultiSet<'a> -> MultiSet<'a> -> MultiSet<'a>
     // val sum : MultiSet<'a> -> MultiSet<'a> -> MultiSet<'a>
     // val subtract : MultiSet<'a> -> MultiSet<'a> -> MultiSet<'a>
