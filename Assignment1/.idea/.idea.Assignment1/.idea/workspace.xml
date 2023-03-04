@@ -6,10 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9bc9a160-f95b-4e46-9b82-64b28e426a0a" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Assignment1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Assignment1/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment1/Program.fs" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment1/Program.fs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assignment1/obj/Debug/Assignment1.fsproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Assignment1/obj/Debug/Assignment1.fsproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assignment4/Assignment4/Dict.fs" beforeDir="false" afterPath="$PROJECT_DIR$/../Assignment4/Assignment4/Dict.fs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Assignment4/Assignment4/obj/Debug/Assignment4.fsproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../Assignment4/Assignment4/obj/Debug/Assignment4.fsproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Assignment5/Assignment5/Program.fs" beforeDir="false" afterPath="$PROJECT_DIR$/../Assignment5/Assignment5/Program.fs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +62,7 @@
       <option name="presentableId" value="Default" />
       <updated>1675785838749</updated>
       <workItem from="1675785846053" duration="175000" />
-      <workItem from="1677946046557" duration="1844000" />
+      <workItem from="1677946046557" duration="2443000" />
     </task>
     <task id="LOCAL-00001" summary="first assigment1">
       <created>1675785984650</created>
