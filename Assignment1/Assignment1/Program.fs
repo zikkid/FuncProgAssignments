@@ -12,7 +12,7 @@ let pow x n = System.Math.Pow(x, n);;
 let rec sum = function
     | 0 -> 0
     | n -> n + sum(n - 1);;
-
+    
 //Exercise 1.4
 let rec fib = function
     | 0 -> 0

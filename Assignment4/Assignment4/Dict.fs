@@ -1,8 +1,8 @@
 ﻿module Dict
 
-    type Dict =
+    type Dict<'T when 'T : comparison> =
         | Leaf of bool
-        | Node of bool * Map<char, Dict>
+        | Node of bool * Map<char, Dict<'T>>
         
     let empty () = Leaf false
     
@@ -14,10 +14,12 @@
         //| Leaf b -> None
             
         | Node (b, dict) ->
-            match dict.TryGetValue s.[0] with
+            match Map.add s dict with
             | (false, _) ->
-                insert s.[1..s.Length] (empty ())
+                dict.[s[0]] <- insert s.[1..s.Length] (empty ())
+                Node (b, dict)
             | _ ->
+                insert  
                 
 
     // let lookup x =
