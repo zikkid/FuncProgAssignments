@@ -1,7 +1,7 @@
-﻿module Dict
-    type Dict
+﻿module Dictionary
+    type Dictionary
     
-    val empty : unit -> Dict
-    val insert : string -> Dict -> Dict
-    val lookup : string -> Dict -> bool
-    val step : char -> Dict -> (bool * Dict) option
+    val empty : unit -> Dictionary
+    val insert : string -> Dictionary -> Dictionary
+    val lookup : string -> Dictionary -> bool
+    val step : char -> Dictionary -> (bool * Dictionary) option
