@@ -1,0 +1,2 @@
+C:\Users\A485\ITU_4.semester\Functional Programming\Assignments\FuncProgAssignments\Assignment4\Assignment4\obj\Debug\Assignment4.fsproj.AssemblyReference.cache
+C:\Users\A485\ITU_4.semester\Functional Programming\Assignments\FuncProgAssignments\Assignment4\Assignment4\obj\Debug\Assignment4.fsproj.SuggestedBindingRedirects.cache
