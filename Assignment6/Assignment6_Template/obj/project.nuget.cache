@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "r+1Tvol3cULdUJiyCBX/OmeWfnSfV6dk8BN9/gTsLSSUqIQB2totooXExeDPAM8dX2rnik/EWbBGxhJNl7qUWA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\A485\\ITU_4.semester\\Functional Programming\\Assignments\\FuncProgAssignments\\Assignment6\\Assignment6_Template\\Assignment6_Template.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\A485\\.nuget\\packages\\fsharp.core\\7.0.0\\fsharp.core.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
