@@ -5,12 +5,20 @@
 
     (* Code for testing *)
 
-    let hello = [(* INSERT YOUR DEFINITON OF HELLO HERE.*)] 
+    //my definition of hello begins
+    type word = (char * int) list;;
+    let hello : word = [('H', 4); ('E', 1); ('L', 1); ('L', 1); ('O', 1)];;
+    //my definition of hello ends
     let state = mkState [("x", 5); ("y", 42)] hello ["_pos_"; "_result_"]
     let emptyState = mkState [] [] []
     
-    let add a b = failwith "Not implemented"      
-    let div a b = failwith "Not implemented"      
+    let add a b = a >>= (fun x -> b >>= (fun y -> ret (x + y)))
+        
+    let div a b =
+        a >>= (fun x -> b >>= (fun y ->
+            match x y with
+            | _, y when y = 0 -> Failure DivisionByZero
+            | x, y when y <> 0 -> ret (x / y)))
 
     type aExp =
         | N of int

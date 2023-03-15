@@ -45,14 +45,24 @@
     let push : SM<unit> = 
         S (fun s -> Success ((), {s with vars = Map.empty :: s.vars}))
 
-    let pop : SM<unit> = failwith "Not implemented"      
+    let pop : SM<unit> =
+        S (fun s -> Success ((), {s with vars = List.tail s.vars}))
 
-    let wordLength : SM<int> = failwith "Not implemented"      
+    let wordLength : SM<int> =
+        S (fun s -> Success (List.length s.word, s))
 
-    let characterValue (pos : int) : SM<char> = failwith "Not implemented"      
+    let characterValue (pos : int) : SM<char> =
+        S (fun s ->
+            match pos with
+            | p when p >= List.length s.word || p < 0 -> Failure (IndexOutOfBounds pos)
+            | p -> Success (fst s.word[p], s))
 
-    let pointValue (pos : int) : SM<int> = failwith "Not implemented"      
-
+    let pointValue (pos : int) : SM<int> =
+        S (fun s ->
+            match pos with
+            | p when p >= List.length s.word || p < 0 -> Failure (IndexOutOfBounds pos)
+            | p -> Success (snd s.word[p], s))
+            
     let lookup (x : string) : SM<int> = 
         let rec aux =
             function
