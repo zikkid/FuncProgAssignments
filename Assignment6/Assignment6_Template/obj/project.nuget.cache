@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "Vyl0owLVyO3SlKvHQu2XyZSWGs2F8U09ZT8vNNWt3hJCmnglvYLcXBx843yHKVlFsTunl9Vzf9WqrpQ4l+E8lw==",
+  "dgSpecHash": "Hn1h38KUvqnHMaMO+0s520zo9nogmph5Ar+2UxLCQXxs3zB+boDV9W+A1R+oY33kYOeu0Avjvww65DchVr98eA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\A485\\ITU_4.semester\\Functional Programming\\Assignments\\FuncProgAssignments\\Assignment6\\Assignment6_Template\\Assignment6_Template.fsproj",
+  "projectFilePath": "C:\\Users\\markt\\ITU_4semester\\Functional Programming\\Assignments\\Assignment6\\Assignment6_Template\\Assignment6_Template.fsproj",
   "expectedPackageFiles": [
-    "C:\\Users\\A485\\.nuget\\packages\\fsharp.core\\7.0.0\\fsharp.core.7.0.0.nupkg.sha512"
+    "C:\\Users\\markt\\.nuget\\packages\\fsharp.core\\7.0.0\\fsharp.core.7.0.0.nupkg.sha512"
   ],
   "logs": []
 }

@@ -17,7 +17,7 @@
     let div a b =
         a >>= (fun x -> b >>= (fun y ->
             match x y with
-            | _, y when y = 0 -> Failure DivisionByZero
+            | _, y when y = 0 -> fail DivisionByZero
             | x, y when y <> 0 -> ret (x / y)))
 
     type aExp =
