@@ -1,5 +1,6 @@
 ﻿module Eval
 
+    open System
     open StateMonad
     open Types
 
@@ -12,7 +13,8 @@
     let state = mkState [("x", 5); ("y", 42)] hello ["_pos_"; "_result_"]
     let emptyState = mkState [] [] []
     
-    let add a b = a >>= (fun x -> b >>= (fun y -> ret (x + y)))
+    let add a b =
+        a >>= (fun x -> b >>= (fun y -> ret (x + y)))
         
     let div a b =
         a >>= (fun x -> b >>= (fun y ->
@@ -33,8 +35,8 @@
         | CharToInt of cExp
 
     and cExp =
-       | C  of char  (* Character value *)
-       | CV of aExp  (* Character lookup at word index *)
+       | C  of char             (* Character value *)
+       | CV of aExp             (* Character lookup at word index *)
        | ToUpper of cExp
        | ToLower of cExp
        | IntToChar of aExp
@@ -71,11 +73,46 @@
     let (.>=.) a b = ~~(a .<. b)                (* numeric greater than or equal to *)
     let (.>.) a b = ~~(a .=. b) .&&. (a .>=. b) (* numeric greater than *)    
 
-    let arithEval a : SM<int> = failwith "Not implemented"      
+    let rec arithEval a : SM<int> =
+        match a with
+        | N n -> ret n
+        | V v -> lookup v
+        | WL -> wordLength
+        | PV x -> arithEval x >>= (fun r -> pointValue r)
+        | Add (x, y) -> add (arithEval x) (arithEval y)
+        | Sub (x, y) -> arithEval (( - ) (arithEval x) (arithEval y))
+        | Mul (x, y) -> ( * ) (arithEval x) (arithEval y)
+        | Div (x, y) -> div (arithEval x) (arithEval y)
+        | Mod (x, y) ->
+            arithEval x >>= (fun a -> arithEval y >>= (fun b ->
+                match a b with
+                | _, b when b = 0 -> fail DivisionByZero
+                | a, b -> ret (a % b)))
+        // | CharToInt c -> 
 
-    let charEval c : SM<char> = failwith "Not implemented"      
+    let charEval c : SM<char> =
+        match c with
+        | C c -> ret c
+        | CV c -> characterValue c
+        | ToUpper c -> Char.ToUpper c
+        | ToLower c -> Char.ToLower c
+        //| IntToChar n -> //Especially need help here
+         
 
-    let boolEval b : SM<bool> = failwith "Not implemented"
+    let rec boolEval b : SM<bool> =
+        match b with
+        | TT -> ret true
+        | FF -> ret false
+
+        | AEq (x, y) -> ( = ) (arithEval x) (arithEval y) 
+        | ALt (x, y) -> ( < ) (arithEval x) (arithEval y)
+
+        | Not x -> ret (not x)
+        | Conj (x, y) -> ( && ) (boolEval x) (boolEval y)
+
+        | IsVowel c -> "AEIOU".Contains (charEval ToUpper (C c))
+        | IsLetter c -> Char.IsLetter c
+        | IsDigit c -> Char.IsDigit c
 
 
     type stmnt =                  (* statements *)
