@@ -55,13 +55,13 @@
         S (fun s ->
             match pos with
             | p when p >= List.length s.word || p < 0 -> Failure (IndexOutOfBounds pos)
-            | p -> Success (fst s.word[p], s))
+            | p -> Success (fst s.word.[p], s))
 
     let pointValue (pos : int) : SM<int> =
         S (fun s ->
             match pos with
             | p when p >= List.length s.word || p < 0 -> Failure (IndexOutOfBounds pos)
-            | p -> Success (snd s.word[p], s))
+            | p -> Success (snd s.word.[p], s))
             
     let lookup (x : string) : SM<int> = 
         let rec aux =
@@ -77,8 +77,36 @@
               | Some v -> Success (v, s)
               | None   -> Failure (VarNotFound x))
 
-    let declare (var : string) : SM<unit> = failwith "Not implemented"   
-    let update (var : string) (value : int) : SM<unit> = failwith "Not implemented"      
+    let declare (var : string) : SM<unit> =
+        let aux =
+            function
+            | [] -> None
+            | m :: ms ->
+                match Map.tryFind var m with
+                | Some _ -> None
+                | None -> Some (Map.add var 0 m)
+                
+        S (fun s ->
+            match aux s.vars with
+            | Some s' -> Success ((), {s with vars = (s' :: (List.tail s.vars))})
+            | None -> Failure (VarExists var))
+                
+    let update (var : string) (value : int) : SM<unit> =
+        let rec aux =
+            function
+            | [] -> None
+            | m :: ms ->
+                match Map.tryFind var m with
+                | Some v -> Some (Map.add var value m :: ms)
+                | None ->
+                    match aux ms with
+                    | Some ms' -> Some (m :: ms')
+                    | None -> None 
+        
+        S (fun s ->
+            match aux s.vars with
+            | Some v -> Success ((), {s with vars = v})
+            | None -> Failure (VarNotFound var))
               
 
     

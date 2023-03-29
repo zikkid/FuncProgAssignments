@@ -18,7 +18,7 @@
         
     let div a b =
         a >>= (fun x -> b >>= (fun y ->
-            match x y with
+            match (x, y) with
             | _, y when y = 0 -> fail DivisionByZero
             | x, y when y <> 0 -> ret (x / y)))
 
@@ -80,39 +80,49 @@
         | WL -> wordLength
         | PV x -> arithEval x >>= (fun r -> pointValue r)
         | Add (x, y) -> add (arithEval x) (arithEval y)
-        | Sub (x, y) -> arithEval (( - ) (arithEval x) (arithEval y))
-        | Mul (x, y) -> ( * ) (arithEval x) (arithEval y)
+        | Sub (x, y) ->
+            arithEval x >>= (fun a -> arithEval y >>= (fun b ->
+                ret (a - b)))
+        | Mul (x, y) ->
+            arithEval x >>= (fun a -> arithEval y >>= (fun b ->
+                ret (a * b)))
         | Div (x, y) -> div (arithEval x) (arithEval y)
         | Mod (x, y) ->
             arithEval x >>= (fun a -> arithEval y >>= (fun b ->
-                match a b with
+                match (a, b) with
                 | _, b when b = 0 -> fail DivisionByZero
                 | a, b -> ret (a % b)))
-        // | CharToInt c -> 
+        | CharToInt c -> charEval c >>= (fun r -> ret (int r))
 
-    let charEval c : SM<char> =
+    and charEval c : SM<char> =
         match c with
         | C c -> ret c
-        | CV c -> characterValue c
-        | ToUpper c -> Char.ToUpper c
-        | ToLower c -> Char.ToLower c
-        //| IntToChar n -> //Especially need help here
+        | CV c -> arithEval c >>= (fun r -> characterValue r)
+        | ToUpper c -> charEval c >>= (fun r -> ret (Char.ToUpper r))
+        | ToLower c -> charEval c >>= (fun r -> ret (Char.ToLower r))
+        | IntToChar n -> arithEval n >>= (fun r -> ret (char r))
          
 
-    let rec boolEval b : SM<bool> =
+    and boolEval b : SM<bool> =
         match b with
         | TT -> ret true
         | FF -> ret false
 
-        | AEq (x, y) -> ( = ) (arithEval x) (arithEval y) 
-        | ALt (x, y) -> ( < ) (arithEval x) (arithEval y)
+        | AEq (x, y) ->
+            arithEval x >>= (fun a -> arithEval y >>= (fun b ->
+                ret (( = ) a b)))
+        | ALt (x, y) ->
+            arithEval x >>= (fun a -> arithEval y >>= (fun b ->
+                ret (( < ) a b)))
 
-        | Not x -> ret (not x)
-        | Conj (x, y) -> ( && ) (boolEval x) (boolEval y)
+        | Not x -> boolEval x >>= (fun r -> ret (not r))
+        | Conj (x, y) ->
+            boolEval x >>= (fun a -> boolEval y >>= (fun b ->
+                ret (( && ) a b)))
 
-        | IsVowel c -> "AEIOU".Contains (charEval ToUpper (C c))
-        | IsLetter c -> Char.IsLetter c
-        | IsDigit c -> Char.IsDigit c
+        | IsVowel c -> charEval c >>= (fun r -> ret ("AEIOUY".Contains (Char.ToUpper r)))
+        | IsLetter c -> charEval c >>= (fun r -> ret (Char.IsLetter r))
+        | IsDigit c -> charEval c >>= (fun r -> ret (Char.IsDigit r))
 
 
     type stmnt =                  (* statements *)
