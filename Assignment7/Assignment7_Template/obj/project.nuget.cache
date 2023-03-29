@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "QS9Hu8Tw1Ur9rd8d7rqJy8S8TJxm9a2o8J8CX6S7RjXQ+ecX1a5Y1bk1D6RuQUZdAuYm7kK/vEUa86IY9/lz2A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\A485\\ITU_4.semester\\FunctionalProgramming\\Assignments\\FuncProgAssignments\\Assignment7\\Assignment7_Template\\Assignment7_Template.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\A485\\.nuget\\packages\\fparsec\\1.1.1\\fparsec.1.1.1.nupkg.sha512",
+    "C:\\Users\\A485\\.nuget\\packages\\fsharp.core\\7.0.0\\fsharp.core.7.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
