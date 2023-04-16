@@ -105,7 +105,7 @@
       ]
     },
     "FSharp.Core/7.0.0": {
-      "sha512": "8hzwUheAViWMAHWQTr6kR/19C4LhjZ4TlftKfNeZO9y7XnRUzLTK6FJS1C+0oObuUe0e4KndYxjWE+Zgea9YXQ==",
+      "sha512": "UcPaa9FW4civPrXL059dEa6Pk8ZMfllEf9RRcChv0reBLnM1WfcXXn7pW357FxGb+CUosq0W93TevJQ6z8G93g==",
       "type": "package",
       "path": "fsharp.core/7.0.0",
       "files": [
@@ -154,19 +154,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\A485\\.nuget\\packages\\": {}
+    "C:\\Users\\markt\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\A485\\ITU_4.semester\\FunctionalProgramming\\Assignments\\FuncProgAssignments\\Assignment7\\Assignment7_Template\\Assignment7_Template.fsproj",
+      "projectUniqueName": "C:\\Users\\markt\\ITU_4semester\\Functional Programming\\Assignments\\Assignment7\\Assignment7_Template\\Assignment7_Template.fsproj",
       "projectName": "Assignment7_Template",
-      "projectPath": "C:\\Users\\A485\\ITU_4.semester\\FunctionalProgramming\\Assignments\\FuncProgAssignments\\Assignment7\\Assignment7_Template\\Assignment7_Template.fsproj",
-      "packagesPath": "C:\\Users\\A485\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\A485\\ITU_4.semester\\FunctionalProgramming\\Assignments\\FuncProgAssignments\\Assignment7\\Assignment7_Template\\obj\\",
+      "projectPath": "C:\\Users\\markt\\ITU_4semester\\Functional Programming\\Assignments\\Assignment7\\Assignment7_Template\\Assignment7_Template.fsproj",
+      "packagesPath": "C:\\Users\\markt\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\markt\\ITU_4semester\\Functional Programming\\Assignments\\Assignment7\\Assignment7_Template\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\A485\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\markt\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -174,7 +174,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\sdk\\7.0.104\\FSharp\\library-packs": {},
+        "C:\\Program Files\\dotnet\\sdk\\7.0.102\\FSharp\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -216,7 +216,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.104\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }

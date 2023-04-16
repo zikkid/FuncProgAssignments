@@ -1,6 +1,8 @@
 ﻿module ImpParser
 
+    open System
     open Eval
+    open Microsoft.FSharp.Quotations
     open Types
 
     (*
@@ -36,10 +38,10 @@
 
     let whitespaceChar = satisfy System.Char.IsWhiteSpace <?> "whitespace"
     let pletter        = satisfy System.Char.IsLetter <?> "letter"
-    let palphanumeric  = satisfy System.Char.IsLetterOrDigit <?> "palphanumeric"
+    let palphanumeric  = satisfy System.Char.IsLetterOrDigit <?> "alphanumeric"
 
     let spaces         = many whitespaceChar <?> "spaces"
-    let spaces1        = many1 whitespaceChar <?> "spaces1"
+    let spaces1        = many1 whitespaceChar <?> "space1"
 
     let (.>*>.) p1 p2 = p1 .>> spaces .>>. p2
     let (.>*>) p1 p2  = p1 .>> spaces .>> p2
@@ -48,25 +50,32 @@
     let parenthesise p = pstring "(" >*>. p .>*> pstring ")"
     let parenthesiseCurly p = pstring "{" >*>. p .>*> pstring "}"
 
-    let pid = pstring "not implemented"
-
+    let pid = (pletter <|> pchar '_')  .>>. many (palphanumeric <|> pchar '_') |>> (fun (x,s) -> (x::s))
+    // Almost there.. as of gives a list of chars and not the string. Can not get the string concat working
     
-    let unop _ = failwith "not implemented"
-    let binop _ p1 p2 = p1 .>>. p2 // incorrect (not implemented)
+    let unop op p1 = op >*>. p1
+    let binop op p1 p2 = p1 .>*> op .>*>. p2
 
     let TermParse, tref = createParserForwardedToRef<aExp>()
     let ProdParse, pref = createParserForwardedToRef<aExp>()
     let AtomParse, aref = createParserForwardedToRef<aExp>()
 
     let AddParse = binop (pchar '+') ProdParse TermParse |>> Add <?> "Add"
-    do tref := choice [AddParse; ProdParse]
+    let SubParse = binop (pchar '-') ProdParse TermParse |>> Sub <?> "Sub"
+    do tref := choice [AddParse; SubParse; ProdParse]
 
     let MulParse = binop (pchar '*') AtomParse ProdParse |>> Mul <?> "Mul"
-    do pref := choice [MulParse; AtomParse]
+    let DivParse = binop (pchar '/') AtomParse ProdParse |>> Div <?> "Div"
+    let ModParse = binop (pchar '%') AtomParse ProdParse |>> Mod <?> "Mod"
+    do pref := choice [MulParse; DivParse; ModParse; AtomParse]
 
     let NParse   = pint32 |>> N <?> "Int"
     let ParParse = parenthesise TermParse
-    do aref := choice [NParse; ParParse]
+    let NegParse = unop (pchar '-') ProdParse |>> (fun n -> Mul (N -1, n)) <?> "Neg"
+    let VarParse = pid |>> V <?> "Variable"
+    let PVParse = unop pPointValue AtomParse |>> PV <?> "PV"
+    let CharToInt = unop pCharValue AtomParse |>> CharToInt <?> "CharToInt"
+    do aref := choice [NParse; ParParse; NegParse; VarParse; PVParse; CharToInt]
 
     let AexpParse = TermParse 
 
